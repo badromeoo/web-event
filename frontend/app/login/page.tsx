@@ -22,22 +22,22 @@ export default function LoginPage() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();
+      const data = await res.json(); // nunggu response dan parsing ke JSON
 
-      if (res.ok) {
+      if (res.ok) { // cek response statusnya 200-299(ok) 
         const token = data.token;
         if (token) {
-          localStorage.setItem('token', token);
+          localStorage.setItem('token', token); //simpen token di localStorage
         }
         setMessage('Login berhasil! Mengarahkan...');
         setEmail('');
         setPassword('');
         setTimeout(() => router.push('/'), 600);
       } else {
-        setMessage(`Error: ${data.message || 'Login gagal'}`);
+        setMessage(`Error: ${data.message || 'Login gagal'}`); 
       }
     } catch (err) {
-      setMessage('Error: Tidak dapat terhubung ke server.');
+      setMessage('Error: Tidak dapat terhubung ke server.'); // server error
     }
   };
 

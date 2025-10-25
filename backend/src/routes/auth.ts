@@ -22,7 +22,7 @@ router.post("/register", async (req, res) => {
             return res.status(400).json({message: "Email ini sudah terdaftar"})
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10); //hash password
 
         const newUser = await  prisma.user.create({
             data: {
@@ -63,7 +63,7 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 
     
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password); //badingin password
 
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Email atau password salah' }); 
