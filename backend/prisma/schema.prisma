@@ -45,6 +45,7 @@ model Event {
   price           Int
   availableSeats  Int
   startDate       DateTime
+  bankAccountNumber String?
   endDate         DateTime
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt

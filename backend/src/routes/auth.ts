@@ -2,11 +2,11 @@ import {Router, type Request, type Response} from 'express';
 import jwt from 'jsonwebtoken'
 import prisma from "../lib/prisma.ts";
 import bcrypt from 'bcrypt';
-
+import authMiddleware from '../middleware/auth.ts';
 
 const router = Router();
 
-router.post("/register", async (req, res) => {
+router.post("/register", async (req: Request, res: Response) => {
     try {
         const {email, password, name}= req.body;
 
@@ -89,6 +89,30 @@ router.post('/login', async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Terjadi kesalahan di server' }); 
+  }
+});
+
+router.get('/me', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    
+    const userData = req.user as any; 
+
+    
+    const user = await prisma.user.findUnique({
+      where: { id: userData.userId },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User tidak ditemukan' });
+    }
+
+    
+    const { password: _, ...userWithoutPassword } = user;
+    res.status(200).json(userWithoutPassword);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Terjadi kesalahan di server' });
   }
 });
 
