@@ -33,7 +33,7 @@ export default function OrganizerDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-const port = 8000
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,8 +44,10 @@ const port = 8000
           return;
         }
 
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
         // Fetch events milik organizer
-        const eventsResponse = await fetch(`http://localhost:${port}/api/events/organizer`, {
+        const eventsResponse = await fetch(`${apiUrl}/api/events/organizer`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -63,7 +65,7 @@ const port = 8000
         setEvents(eventsData);
 
         // Fetch transactions
-        const transactionsResponse = await fetch(`http://localhost:${port}/api/transactions/organizer`, {
+        const transactionsResponse = await fetch(`${apiUrl}/api/transactions/organizer`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -98,7 +100,8 @@ const port = 8000
         return;
       }
 
-      const response = await fetch(`http://localhost:${port}/api/transactions/${id}/manage`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${apiUrl}/api/transactions/${id}/manage`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,

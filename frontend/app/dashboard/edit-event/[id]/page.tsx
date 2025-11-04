@@ -32,7 +32,8 @@ export default function EditEvent() {
     const fetchEventData = async () => {
       try {
         setIsFetching(true);
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${id}`);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+        const response = await fetch(`${apiUrl}/api/events/${id}`);
 
         if (response.ok) {
           const data = await response.json();
@@ -75,8 +76,9 @@ export default function EditEvent() {
 
     try {
       const token = localStorage.getItem("token");
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${id}`, {
+      const response = await fetch(`${apiUrl}/api/events/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

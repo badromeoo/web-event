@@ -12,16 +12,22 @@ interface Event {
 }
 
 async function fetchEvents(): Promise<Event[]> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-  const res = await fetch(`${apiUrl}/api/events`, {
-    cache: "no-store",
-  });
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+    const res = await fetch(`${apiUrl}/api/events`, {
+      cache: "no-store",
+    });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch events");
+    if (!res.ok) {
+      console.error("Failed to fetch events:", res.status);
+      return [];
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    return [];
   }
-
-  return res.json();
 }
 
 function formatDate(dateString: string): string {

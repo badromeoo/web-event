@@ -35,7 +35,8 @@ export default function ProfilePage() {
     // Ambil data user dari endpoint /api/auth/me
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`, {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+        const response = await fetch(`${apiUrl}/api/auth/me`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

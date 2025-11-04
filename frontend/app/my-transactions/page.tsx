@@ -32,7 +32,7 @@ export default function MyTransactionsPage() {
         return;
       }
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
       try {
         const res = await fetch(`${apiUrl}/api/transactions/my`, {
@@ -75,7 +75,7 @@ export default function MyTransactionsPage() {
       return;
     }
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
     try {
       const formData = new FormData();
